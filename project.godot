@@ -16,7 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="Gun Fight"
+run/main_scene="res://scenes/TilemapTest.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=480
+window/size/height=320
+window/stretch/mode="2d"
 
 [rendering]
 
