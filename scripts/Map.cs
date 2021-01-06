@@ -29,6 +29,24 @@ public class Map : Node2D
         CreateRoadMap();
     }
 
+    public override void _Input(InputEvent e) {
+        if (e.IsActionPressed("ui_accept")) {
+            ClearMaps();
+            DrawMaps();
+        }
+    }
+
+    public void ClearMaps() {
+        sandMap.Clear();
+        roadMap.Clear();
+    }
+
+    public void DrawMaps() {
+        noise.Seed = (int)rng.Randi();
+        CreateSandMap();
+        CreateRoadMap();
+    }
+
     public void CreateSandMap()
     {
         for (int x = 0; x < mapSize.x; x++)
