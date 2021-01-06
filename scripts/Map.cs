@@ -5,25 +5,32 @@ public class Map : Node2D
 {
     public OpenSimplexNoise noise;
     public Vector2 mapSize = new Vector2(32, 22);
-    public float grassCap = 0.475f;
+    public float grassCap = 0.45f;
     public Vector2 roadCaps = new Vector2(0.275f, 0.075f);
     public Vector3 environmentCaps = new Vector3(0.4f, 0.3f, 0.04f);
     public RandomNumberGenerator rng;
     public TileMap sandMap;
     public TileMap roadMap;
 
+    public Navigation2D nav2D;
+    public Line2D line;
+    TestCharacter dude;
+
   // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        sandMap = (TileMap)GetNode("TilemapSand");
+        sandMap = (TileMap)GetNode("Navigation2D/TilemapSand");
         roadMap = (TileMap)GetNode("TilemapPaths");
+        nav2D = (Navigation2D)GetNode("Navigation2D");
+        line = (Line2D)GetNode("Line2D");
+        dude = (TestCharacter)GetNode("Sprite");
 
         rng = new RandomNumberGenerator();
         rng.Randomize();
         noise = new OpenSimplexNoise();
         noise.Seed = (int)rng.Randi();
         noise.Octaves = 1;
-        noise.Period = 12;
+        noise.Period = 13;
 
         CreateSandMap();
         CreateRoadMap();
@@ -34,6 +41,14 @@ public class Map : Node2D
             ClearMaps();
             DrawMaps();
         }
+
+        if (e is InputEventMouseButton evmb) {
+            var path = nav2D.GetSimplePath(dude.Position, evmb.Position);
+            line.Points = path;
+            dude.setPath(path);
+
+        }
+
     }
 
     public void ClearMaps() {
